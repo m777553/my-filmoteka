@@ -10,12 +10,12 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Get('api/ping')
+  @Get('ping')
   ping(): { status: string; timestamp: string } {
     return this.appService.ping();
   }
 
-  @Get('api/info')
+  @Get('info')
   info() {
     return this.appService.info();
   }
