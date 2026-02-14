@@ -1,0 +1,45 @@
+### Ping
+GET http://localhost:3000/api/ping
+
+### Info
+GET http://localhost:3000/api/info
+
+### Получить все фильмы
+GET http://localhost:3000/api/movies
+
+### Получить фильм по ID
+GET http://localhost:3000/api/movies/5
+
+### Создать фильм
+POST http://localhost:3000/api/movies
+Content-Type: application/json
+
+{
+  "title": "Inception",
+  "director": "Christopher Nolan",
+  "year": 2010,
+  "description": "A thief who steals corporate secrets through dream-sharing technology"
+}
+
+### Обновить — отметить просмотренным и поставить оценку
+PATCH http://localhost:3000/api/movies/1
+Content-Type: application/json
+
+{
+  "isWatched": true,
+  "rating": 9
+}
+
+### Обновить — добавить заметку
+PATCH http://localhost:3000/api/movies/1
+Content-Type: application/json
+
+{
+  "notes": "Пересмотреть через год"
+}
+
+### Удалить фильм
+DELETE http://localhost:3000/api/movies/5
+
+### Несуществующий фильм (должен вернуть 404)
+GET http://localhost:3000/api/movies/999
