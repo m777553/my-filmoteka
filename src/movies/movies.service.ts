@@ -5,7 +5,7 @@ import { Movie } from './entities/movie.entity';
 
 @Injectable()
 export class MoviesService {
-  movies: Movie[] = [];
+  MOVIES: Movie[] = [];
   nextId: number = 1;
 
   create(createMovieDto: CreateMovieDto): Movie {
@@ -17,16 +17,16 @@ export class MoviesService {
       id: this.nextId++,
       isWatched: false, // По дефолту не просмотрено
     };
-    this.movies.push(movie);
+    this.MOVIES.push(movie);
     return movie;
   }
 
   findAll(): Movie[] {
-    return this.movies;
+    return this.MOVIES;
   }
 
   findOne(id: number): Movie {
-    const movie = this.movies.find((movie) => movie.id === id);
+    const movie = this.MOVIES.find((movie) => movie.id === id);
     if (!movie) {
       throw new NotFoundException(`Movie with id ${id} not found`);
     }
@@ -41,6 +41,6 @@ export class MoviesService {
 
   remove(id: number) {
     this.findOne(id);
-    this.movies = this.movies.filter((m) => m.id !== id);
+    this.MOVIES = this.MOVIES.filter((m) => m.id !== id);
   }
 }
