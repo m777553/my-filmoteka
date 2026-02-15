@@ -22,8 +22,8 @@ export class CreateMovieDto {
   @Min(1895, { message: 'The movie industry starts in 1895' })
   year: number;
 
-  @IsString()
   @IsOptional()
+  @IsString()
   @MinLength(5, { message: 'Need more symbols (5)' })
   @MaxLength(1000, { message: 'Too long (1000 max)' })
   description: string;

@@ -12,19 +12,19 @@ import {
 } from 'class-validator';
 
 export class UpdateMovieDto extends PartialType(CreateMovieDto) {
+  @IsOptional()
   @IsInt({ message: 'целое число, от 1 до 10' })
   @Min(1, { message: 'целое число, от 1' })
   @Max(10, { message: 'целое число, до 10' })
-  @IsOptional()
   rating?: number;
 
-  @IsBoolean()
   @IsOptional()
+  @IsBoolean()
   isWatched?: boolean;
 
+  @IsOptional()
   @IsString()
   @MinLength(5, { message: 'Need more symbols (5)' })
-  @MaxLength(1000, { message: 'Too long (500 max)' })
-  @IsOptional()
+  @MaxLength(1000, { message: 'Too long (1000 max)' })
   notes?: string;
 }
