@@ -1,45 +1,42 @@
-### Ping
-GET http://localhost:3000/api/ping
-
 ### Info
 GET http://localhost:3000/api/info
 
-### Получить все фильмы
-GET http://localhost:3000/api/movies
+### ===== GENRES =====
 
-### Получить фильм по ID
-GET http://localhost:3000/api/movies/5
+### Получить все жанры
+GET http://localhost:3000/api/genres
 
-### Создать фильм
-POST http://localhost:3000/api/movies
+### Получить жанр по ID
+GET http://localhost:3000/api/genres/1
+
+### Создать жанр
+POST http://localhost:3000/api/genres
 Content-Type: application/json
 
 {
-  "title": "Inception",
-  "director": "Christopher Nolan",
-  "year": 2010,
-  "description": "A thief who steals corporate secrets through dream-sharing technology"
+  "name": "Документальный"
 }
 
-### Обновить — отметить просмотренным и поставить оценку
-PATCH http://localhost:3000/api/movies/1
+### Обновить жанр
+PATCH http://localhost:3000/api/genres/1
 Content-Type: application/json
 
 {
-  "isWatched": true,
-  "rating": 9
+  "name": "Боевик/Экшен"
 }
 
-### Обновить — добавить заметку
-PATCH http://localhost:3000/api/movies/1
-Content-Type: application/json
+### Удалить жанр
+DELETE http://localhost:3000/api/genres/1
 
-{
-  "notes": "Пересмотреть через год"
-}
+### Несуществующий жанр (404)
+GET http://localhost:3000/api/genres/999
 
-### Удалить фильм
-DELETE http://localhost:3000/api/movies/5
-
-### Несуществующий фильм (должен вернуть 404)
-GET http://localhost:3000/api/movies/999
+#### add many DON'T WORK
+#POST http://localhost:3000/api/genres
+#Content-Type: application/json
+#
+#  ["Боевик",
+#  "Комедия",
+#  "Драма",
+#  "Фантастика",
+#  "Ужасы"]
