@@ -40,3 +40,69 @@ GET http://localhost:3000/api/genres/999
 #  "Драма",
 #  "Фантастика",
 #  "Ужасы"]
+
+### ===== ВАЛИДАЦИЯ =====
+
+### Пустое тело — должно вернуть 400
+POST http://localhost:3000/api/movies
+Content-Type: application/json
+
+{}
+
+### Невалидный год — должно вернуть 400
+POST http://localhost:3000/api/movies
+Content-Type: application/json
+
+{
+  "title": "Test",
+  "director": "Test",
+  "year": -5,
+  "description": "Test"
+}
+
+### Лишние поля — должно вернуть 400 (forbidNonWhitelisted)
+POST http://localhost:3000/api/movies
+Content-Type: application/json
+
+{
+  "title": "Test",
+  "director": "Test",
+  "year": 2020,
+  "description": "Test",
+  "hackerField": "malicious"
+}
+
+### Рейтинг вне диапазона — должно вернуть 400
+PATCH http://localhost:3000/api/movies/1
+Content-Type: application/json
+
+{
+  "rating": 99
+}
+
+### Валидные данные — должно вернуть 201
+POST http://localhost:3000/api/movies
+Content-Type: application/json
+
+{
+  "title": "Inception",
+  "director": "Christopher Nolan",
+  "year": 2010,
+  "description": "A mind-bending thriller"
+}
+
+### Пустой жанр — должно вернуть 400
+POST http://localhost:3000/api/genres
+Content-Type: application/json
+
+{
+  "name": ""
+}
+
+### Короткий жанр — должно вернуть 400
+POST http://localhost:3000/api/genres
+Content-Type: application/json
+
+{
+  "name": "A"
+}
