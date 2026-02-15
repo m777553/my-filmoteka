@@ -4,7 +4,7 @@ export class Movie {
   title: string;
   director: string;
   year: number;
-  description: string;
+  description: string | null;
   rating: number | null; // (null = ещё не оценён)
   isWatched: boolean;
   notes: string | null; // (личная заметка)
