@@ -20,9 +20,9 @@ export class GenresController {
   create(@Body() createGenreDto: CreateGenreDto) {
     return this.genresService.create(createGenreDto);
   }
-
+  // TODO подумать чтобы фронт передавал просто строку названия, а не объект
   // DON'T WORK
-  // @Post()
+  // @Post('several')
   // createSeveral(@Body() createGenresDto: CreateGenreDto[]) {
   //   return this.genresService.createSeveral(createGenresDto);
   // }
