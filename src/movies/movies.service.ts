@@ -2,45 +2,45 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { Movie } from './entities/movie.entity';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class MoviesService {
-  MOVIES: Movie[] = [];
-  nextId: number = 1;
+  // MOVIES: Movie[] = [];
+  // nextId: number = 1;
 
-  create(createMovieDto: CreateMovieDto): Movie {
-    const movie: Movie = {
-      ...createMovieDto,
-      createdAt: new Date(),
-      notes: null,
-      rating: null,
-      id: this.nextId++,
-      isWatched: false, // По дефолту не просмотрено
-    };
-    this.MOVIES.push(movie);
-    return movie;
+  constructor(private prisma: PrismaService) {}
+
+  async create(createMovieDto: CreateMovieDto): Promise<Movie> {
+    // this.prisma.movie - это доступ к таблице Movie
+    return this.prisma.movie.create({
+      data: {
+        title: createMovieDto.title,
+        year: createMovieDto.year,
+        director: createMovieDto.director,
+        description: createMovieDto.description,
+        // Остальные поля (rating, isWatched) возьмутся по дефолту или null
+      },
+    });
   }
 
-  findAll(): Movie[] {
-    return this.MOVIES;
+  async findAll(): Promise<Movie[]> {
+    return this.prisma.movie.findMany();
   }
 
-  findOne(id: number): Movie {
-    const movie = this.MOVIES.find((movie) => movie.id === id);
+  async findOne(id: number): Promise<Movie | null> {
+    const movie = await this.prisma.movie.findUnique({ where: { id } });
     if (!movie) {
       throw new NotFoundException(`Movie with id ${id} not found`);
     }
     return movie;
   }
 
-  update(id: number, updateMovieDto: UpdateMovieDto): Movie {
-    const movie = this.findOne(id);
-    Object.assign(movie, updateMovieDto);
-    return movie;
+  async update(id: number, updateMovieDto: UpdateMovieDto): Promise<Movie> {
+    return this.prisma.movie.update({ where: { id }, data: updateMovieDto });
   }
 
-  remove(id: number) {
-    this.findOne(id);
-    this.MOVIES = this.MOVIES.filter((m) => m.id !== id);
+  async remove(id: number) {
+    await this.prisma.movie.delete({ where: { id } });
   }
 }

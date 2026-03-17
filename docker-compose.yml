@@ -8,7 +8,7 @@ services:
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
-      POSTGRES_DB: film_db
+      POSTGRES_DB: filmoteka
     volumes:
       - postgres_data:/var/lib/postgresql/data # Чтобы данные не стерлись при перезапуске контейнера
 

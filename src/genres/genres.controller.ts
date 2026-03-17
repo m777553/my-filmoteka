@@ -17,28 +17,22 @@ export class GenresController {
   constructor(private readonly genresService: GenresService) {}
 
   @Post()
-  create(@Body() createGenreDto: CreateGenreDto) {
+  async create(@Body() createGenreDto: CreateGenreDto) {
     return this.genresService.create(createGenreDto);
   }
-  // TODO подумать чтобы фронт передавал просто строку названия, а не объект
-  // DON'T WORK
-  // @Post('several')
-  // createSeveral(@Body() createGenresDto: CreateGenreDto[]) {
-  //   return this.genresService.createSeveral(createGenresDto);
-  // }
 
   @Get()
-  findAll() {
+  async findAll() {
     return this.genresService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
+  async findOne(@Param('id', ParseIntPipe) id: number) {
     return this.genresService.findOne(id);
   }
 
   @Patch(':id')
-  update(
+  async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateGenreDto: UpdateGenreDto,
   ) {
@@ -46,7 +40,7 @@ export class GenresController {
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
+  async remove(@Param('id', ParseIntPipe) id: number) {
     return this.genresService.remove(id);
   }
 }
