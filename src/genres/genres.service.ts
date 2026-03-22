@@ -1,53 +1,33 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateGenreDto } from './dto/create-genre.dto';
 import { UpdateGenreDto } from './dto/update-genre.dto';
-import { Genre } from './entities/genre.entity';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class GenresService {
-  private GENRES: Genre[] = [
-    { id: 1, name: 'Боевик' },
-    { id: 2, name: 'Комедия' },
-    { id: 3, name: 'Драма' },
-    { id: 4, name: 'Фантастика' },
-    { id: 5, name: 'Ужасы' },
-  ];
-  private nextId = 6;
-  create(createGenreDto: CreateGenreDto) {
-    const genre: Genre = { ...createGenreDto, id: this.nextId++ };
-    this.GENRES.push(genre);
-    return genre;
+  constructor(private prisma: PrismaService) {}
+
+  async create(createGenreDto: CreateGenreDto) {
+    return this.prisma.genre.create({ data: createGenreDto });
   }
 
-  // createSeveral(createGenresDto: string[]) {
-  //   const genres: Genre[] = createGenresDto.map((genre: string) => ({
-  //     name: genre,
-  //     id: this.nextId++,
-  //   }));
-  //   this.GENRES.push(...genres);
-  //   return genres;
-  // }
-
-  findAll() {
-    return this.GENRES;
+  async findAll() {
+    return this.prisma.genre.findMany();
   }
 
-  findOne(id: number) {
-    const genre = this.GENRES.find((genre) => genre.id === id);
+  async findOne(id: number) {
+    const genre = await this.prisma.genre.findUnique({ where: { id } });
     if (!genre) {
       throw new NotFoundException(`Genre with id ${id} not found`);
     }
     return genre;
   }
 
-  update(id: number, updateGenreDto: UpdateGenreDto) {
-    const genre = this.findOne(id);
-    Object.assign(genre, updateGenreDto);
-    return genre;
+  async update(id: number, updateGenreDto: UpdateGenreDto) {
+    return this.prisma.genre.update({ where: { id }, data: updateGenreDto });
   }
 
-  remove(id: number) {
-    this.findOne(id);
-    this.GENRES = this.GENRES.filter((g) => g.id !== id);
+  async remove(id: number) {
+    await this.prisma.genre.delete({ where: { id } });
   }
 }

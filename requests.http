@@ -1,21 +1,50 @@
-### Info
-GET http://localhost:3000/api/info
-
 ### ===== GENRES =====
+
+### Создать жанры
+POST http://localhost:3000/api/genres
+Content-Type: application/json
+
+{
+  "name": "Боевик"
+}
+
+###
+POST http://localhost:3000/api/genres
+Content-Type: application/json
+
+{
+  "name": "Комедия"
+}
+
+###
+POST http://localhost:3000/api/genres
+Content-Type: application/json
+
+{
+  "name": "Драма"
+}
+
+###
+POST http://localhost:3000/api/genres
+Content-Type: application/json
+
+{
+  "name": "Фантастика"
+}
+
+###
+POST http://localhost:3000/api/genres
+Content-Type: application/json
+
+{
+  "name": "Ужасы"
+}
 
 ### Получить все жанры
 GET http://localhost:3000/api/genres
 
 ### Получить жанр по ID
 GET http://localhost:3000/api/genres/1
-
-### Создать жанр
-POST http://localhost:3000/api/genres
-Content-Type: application/json
-
-{
-  "name": "Документальный"
-}
 
 ### Обновить жанр
 PATCH http://localhost:3000/api/genres/1
@@ -25,62 +54,13 @@ Content-Type: application/json
   "name": "Боевик/Экшен"
 }
 
-### Удалить жанр
-DELETE http://localhost:3000/api/genres/1
-
-### Несуществующий жанр (404)
+### Несуществующий жанр
 GET http://localhost:3000/api/genres/999
 
-#### add many DON'T WORK
-#POST http://localhost:3000/api/genres
-#Content-Type: application/json
-#
-#  ["Боевик",
-#  "Комедия",
-#  "Драма",
-#  "Фантастика",
-#  "Ужасы"]
 
-### ===== ВАЛИДАЦИЯ =====
+### ===== MOVIES =====
 
-### Пустое тело — должно вернуть 400
-POST http://localhost:3000/api/movies
-Content-Type: application/json
-
-{}
-
-### Невалидный год — должно вернуть 400
-POST http://localhost:3000/api/movies
-Content-Type: application/json
-
-{
-  "title": "Test",
-  "director": "Test",
-  "year": -5,
-  "description": "Test"
-}
-
-### Лишние поля — должно вернуть 400 (forbidNonWhitelisted)
-POST http://localhost:3000/api/movies
-Content-Type: application/json
-
-{
-  "title": "Test",
-  "director": "Test",
-  "year": 2020,
-  "description": "Test",
-  "hackerField": "malicious"
-}
-
-### Рейтинг вне диапазона — должно вернуть 400
-PATCH http://localhost:3000/api/movies/1
-Content-Type: application/json
-
-{
-  "rating": 99
-}
-
-### Валидные данные — должно вернуть 201
+### Создать фильмы
 POST http://localhost:3000/api/movies
 Content-Type: application/json
 
@@ -88,21 +68,94 @@ Content-Type: application/json
   "title": "Inception",
   "director": "Christopher Nolan",
   "year": 2010,
-  "description": "A mind-bending thriller"
+  "description": "A thief who steals corporate secrets through dream-sharing technology"
 }
 
-### Пустой жанр — должно вернуть 400
-POST http://localhost:3000/api/genres
+###
+POST http://localhost:3000/api/movies
 Content-Type: application/json
 
 {
-  "name": ""
+  "title": "The Matrix",
+  "director": "Wachowski Sisters",
+  "year": 1999,
+  "description": "A computer programmer discovers the world is a simulation"
 }
 
-### Короткий жанр — должно вернуть 400
-POST http://localhost:3000/api/genres
+###
+POST http://localhost:3000/api/movies
 Content-Type: application/json
 
 {
-  "name": "A"
+  "title": "Interstellar",
+  "director": "Christopher Nolan",
+  "year": 2014,
+  "description": "A team of explorers travel through a wormhole in space"
+}
+
+###
+POST http://localhost:3000/api/movies
+Content-Type: application/json
+
+{
+  "title": "Dune",
+  "director": "Denis Villeneuve",
+  "year": 2021,
+  "description": "A noble family becomes embroiled in a war for control of a desert planet"
+}
+
+###
+POST http://localhost:3000/api/movies
+Content-Type: application/json
+
+{
+  "title": "Parasite",
+  "director": "Bong Joon-ho",
+  "year": 2019,
+  "description": "Greed and class discrimination threaten a symbiotic relationship"
+}
+
+### Получить все фильмы
+GET http://localhost:3000/api/movies
+
+### Получить фильм по ID
+GET http://localhost:3000/api/movies/1
+
+### Отметить просмотренным + оценить
+PATCH http://localhost:3000/api/movies/1
+Content-Type: application/json
+
+{
+  "isWatched": true,
+  "rating": 9
+}
+
+### Добавить заметку
+PATCH http://localhost:3000/api/movies/2
+Content-Type: application/json
+
+{
+  "isWatched": true,
+  "rating": 10,
+  "notes": "Лучший фильм про симуляцию"
+}
+
+### Несуществующий фильм
+GET http://localhost:3000/api/movies/999
+
+### Удалить фильм
+DELETE http://localhost:3000/api/movies/5
+
+### Проверить что удалился
+GET http://localhost:3000/api/movies
+
+### Создать фильмы
+POST http://localhost:3000/api/movies
+Content-Type: application/json
+
+{
+  "title": "кей-поп",
+  "director": "Сони",
+  "year": 2025,
+  "description": "мульт"
 }
