@@ -6,9 +6,6 @@ import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class MoviesService {
-  // MOVIES: Movie[] = [];
-  // nextId: number = 1;
-
   constructor(private prisma: PrismaService) {}
 
   async create(createMovieDto: CreateMovieDto): Promise<Movie> {
@@ -19,17 +16,26 @@ export class MoviesService {
         year: createMovieDto.year,
         director: createMovieDto.director,
         description: createMovieDto.description,
+        genres: {
+          connect: createMovieDto.genreIds
+            ? createMovieDto.genreIds?.map((id) => ({ id }))
+            : undefined,
+        },
         // Остальные поля (rating, isWatched) возьмутся по дефолту или null
       },
+      include: { genres: true },
     });
   }
 
   async findAll(): Promise<Movie[]> {
-    return this.prisma.movie.findMany();
+    return this.prisma.movie.findMany({ include: { genres: true } });
   }
 
   async findOne(id: number): Promise<Movie | null> {
-    const movie = await this.prisma.movie.findUnique({ where: { id } });
+    const movie = await this.prisma.movie.findUnique({
+      where: { id },
+      include: { genres: true },
+    });
     if (!movie) {
       throw new NotFoundException(`Movie with id ${id} not found`);
     }
@@ -37,7 +43,15 @@ export class MoviesService {
   }
 
   async update(id: number, updateMovieDto: UpdateMovieDto): Promise<Movie> {
-    return this.prisma.movie.update({ where: { id }, data: updateMovieDto });
+    const { genreIds, ...movieData } = updateMovieDto;
+    return this.prisma.movie.update({
+      where: { id },
+      data: {
+        ...movieData,
+        genres: genreIds ? { set: genreIds.map((id) => ({ id })) } : undefined,
+      },
+      include: { genres: true },
+    });
   }
 
   async remove(id: number) {

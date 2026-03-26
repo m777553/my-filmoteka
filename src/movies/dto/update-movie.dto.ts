@@ -1,6 +1,7 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateMovieDto } from './create-movie.dto';
 import {
+  IsArray,
   IsBoolean,
   IsInt,
   IsOptional,
@@ -27,4 +28,9 @@ export class UpdateMovieDto extends PartialType(CreateMovieDto) {
   @MinLength(5, { message: 'Need more symbols (5)' })
   @MaxLength(1000, { message: 'Too long (1000 max)' })
   notes?: string;
+
+  @IsOptional()
+  @IsArray()
+  @IsInt({ each: true })
+  genreIds?: number[];
 }
