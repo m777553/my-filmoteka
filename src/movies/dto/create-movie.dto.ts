@@ -1,4 +1,5 @@
 import {
+  IsArray,
   IsInt,
   IsNotEmpty,
   IsOptional,
@@ -27,4 +28,9 @@ export class CreateMovieDto {
   @MinLength(5, { message: 'Need more symbols (5)' })
   @MaxLength(1000, { message: 'Too long (1000 max)' })
   description: string;
+
+  @IsOptional()
+  @IsArray() // массив
+  @IsInt({ each: true }) // each: true — проверяет каждый элемент массива
+  genreIds?: number[];
 }
