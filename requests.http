@@ -1,31 +1,34 @@
-### Inception → Фантастика, Боевик
-PATCH http://localhost:3000/api/movies/1
-Content-Type: application/json
+### ===== ФИЛЬТРАЦИЯ =====
 
-{
-  "genreIds": [1, 4]
-}
+### Все фильмы (без фильтров, первая страница)
+GET http://localhost:3000/api/movies
 
-### Matrix → Фантастика, Боевик
-PATCH http://localhost:3000/api/movies/2
-Content-Type: application/json
+### Поиск по имени/режиссёру
+GET http://localhost:3000/api/movies?search=nolan
 
-{
-  "genreIds": [1, 4]
-}
+### Только просмотренные
+GET http://localhost:3000/api/movies?isWatched=true
 
-### Interstellar → Фантастика, Драма
-PATCH http://localhost:3000/api/movies/3
-Content-Type: application/json
+### Фильтр по жанру (id жанра "Фантастика")
+GET http://localhost:3000/api/movies?genreId=4
 
-{
-  "genreIds": [3, 4]
-}
+### Фильмы 2000-2015 года
+GET http://localhost:3000/api/movies?yearFrom=2000&yearTo=2015
 
-### Dune → Фантастика, Боевик
-PATCH http://localhost:3000/api/movies/4
-Content-Type: application/json
+### С рейтингом от 8
+GET http://localhost:3000/api/movies?ratingFrom=8
 
-{
-  "genreIds": [1, 4]
-}
+### Комбинация фильтров
+GET http://localhost:3000/api/movies?genreId=4&isWatched=true&sortBy=rating&order=desc
+
+### Пагинация: страница 1, по 2 штуки
+GET http://localhost:3000/api/movies?page=1&limit=2
+
+### Пагинация: страница 2, по 2 штуки
+GET http://localhost:3000/api/movies?page=2&limit=2
+
+### Сортировка по году (от старых к новым)
+GET http://localhost:3000/api/movies?sortBy=year&order=asc
+
+### Сортировка по рейтингу (от высокого к низкому)
+GET http://localhost:3000/api/movies?sortBy=rating&order=desc
