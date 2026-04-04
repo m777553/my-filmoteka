@@ -7,10 +7,12 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
+import { FilterMoviesDto } from './dto/filter-movies.dto';
 
 @Controller('movies')
 export class MoviesController {
@@ -22,8 +24,8 @@ export class MoviesController {
   }
 
   @Get()
-  async findAll() {
-    return this.moviesService.findAll();
+  async findAll(@Query() filters: FilterMoviesDto) {
+    return this.moviesService.findAll(filters);
   }
 
   @Get(':id')
